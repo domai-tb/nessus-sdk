@@ -131,6 +131,8 @@ dev = [
   "toml",
   "tox",
   "twine",
+  "sphinx",
+  "sphinx-book-theme",
 ]
 
 # List URLs that are relevant to your project
@@ -150,10 +152,10 @@ dev = [
 
 # Tool Configuration: autoflake
 #
-# autoflake removes unused imports and unused variables from Python code. 
-# It makes use of pyflakes to do this. By default, autoflake only removes unused 
-# imports for modules that are part of the standard library. 
-# (Other modules may have side effects that make them unsafe to remove automatically.) 
+# autoflake removes unused imports and unused variables from Python code.
+# It makes use of pyflakes to do this. By default, autoflake only removes unused
+# imports for modules that are part of the standard library.
+# (Other modules may have side effects that make them unsafe to remove automatically.)
 # Removal of unused variables is also disabled by default.
 [tool.autoflake]
 ignore-init-module-imports = true
@@ -165,17 +167,17 @@ remove-unused-variables = true
 # Tool Configuration: isort
 #
 # isort your imports, so you don't have to.
-# isort is a Python utility / library to sort imports alphabetically, and 
-# automatically separated into sections and by type. It provides a command line 
-# utility, Python library and plugins for various editors to quickly sort all 
-# your imports. It requires Python 3.8+ to run but supports formatting 
+# isort is a Python utility / library to sort imports alphabetically, and
+# automatically separated into sections and by type. It provides a command line
+# utility, Python library and plugins for various editors to quickly sort all
+# your imports. It requires Python 3.8+ to run but supports formatting
 # Python 2 code too.
 [tool.isort]
 profile = "black"
 
 # Tool Configuration: pytest
 #
-# The pytest framework makes it easy to write small, readable tests, and can 
+# The pytest framework makes it easy to write small, readable tests, and can
 # scale to support complex functional testing for applications and libraries.
 [tool.pytest.ini_options]
 addopts = "-ra -v --cov --cov-report term-missing"
