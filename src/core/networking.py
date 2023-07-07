@@ -33,7 +33,7 @@ class Networking:
         """Perform a DELETE request."""
         return self.__request("DELETE", path)
 
-    def put(self, path: str) -> dict | str:
+    def put(self, path: str, params: dict) -> dict | str:
         """Perform a PUT request."""
         return self.__request("PUT", path)
 

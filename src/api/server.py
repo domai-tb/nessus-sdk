@@ -79,7 +79,7 @@ class ServerAPI(Networking):
             unlink (bool, optional): Indicates whether the scanner should be unlinked from Tenable.io or Nessus Manager before restarting. Defaults to False.
             when_idle (bool, optional): Indicates that the scanner should be restarted when there are no scans currently running. Defaults to False.
         """
-        return self.post(
+        self.post(
             "/server/restart",
             params={
                 "reason": reason,
