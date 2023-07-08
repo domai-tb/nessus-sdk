@@ -1,2 +1,2 @@
-from . import errors as NessusErrors
+from . import errors as NErrors
 from .networking import Networking

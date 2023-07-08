@@ -25,7 +25,7 @@ class MailAPI(Networking):
             smtp_user (str): The sender's username.
             smtp_pass (str): The sender's password.
             smtp_enc (str): The encryption protocol to use.
-        """    
+        """
         self.put(
             "/settings/network/mail",
             params={
@@ -44,6 +44,9 @@ class MailAPI(Networking):
         """
         Returns the mail server settings.
 
+        Raises:
+            NErrors.UnexpectedError: An unexpected error occured.
+
         Returns:
             dict: JSON object of Mail settings:
                 {
@@ -56,5 +59,5 @@ class MailAPI(Networking):
                     "smtp_pass": {string},
                     "smtp_enc": {string}
                 }
-        """        
-        return self.get('/settings/network/mail')
+        """
+        return dict(self.get("/settings/network/mail"))
