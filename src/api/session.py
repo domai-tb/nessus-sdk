@@ -12,6 +12,7 @@ class SessionAPI(Networking):
 
         Raises:
             NErrors.AuthenticationError: Indicate that an error occured in the authentication process.
+            NErrors.UnexpectedError: Indicate that an error occured in the destroy process.
 
         Returns:
             dict: API-Token of given user and MD5-Sums:
@@ -36,8 +37,23 @@ class SessionAPI(Networking):
     def destroy(self) -> None:
         """
         Logs the current user out and destroys the session.
+
+        Raises:
+            NErrors.AuthenticationError: No session found to destroy.
+            NErrors.UnexpectedError: Indicate that an error occured in the destroy process.
         """
-        self.delete("/session")
+        try:
+            self.delete("/session")
+            del self.headers
+        except NErrors.StatusCodeError as e:
+            if e.status_code == 401:
+                raise NErrors.AuthenticationError("Returned 401, no session exists.")
+            else:
+                raise NErrors.UnexpectedError(e)
+        except NErrors.NetworingError:
+            raise NErrors.AuthenticationError("Could not get an response.")
+        except Exception as e:
+            raise NErrors.UnexpectedError(e)
 
     def edit(self, name: str = None, email: str = None) -> dict:
         """

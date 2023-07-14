@@ -2,7 +2,9 @@ import json
 from json import JSONDecodeError
 from urllib.parse import urlsplit
 
+import backoff
 from requests import request
+from requests.exceptions import ConnectionError, Timeout
 from requests.packages import urllib3
 from validators import url
 
@@ -72,16 +74,14 @@ class Networking:
         """
         return self.__request("POST", path, params, headers)
 
-    def delete(
-        self, path: str, params: dict = {}, headers: dict = __shared_headers
-    ) -> dict | str:
+    def delete(self, path: str, headers: dict = __shared_headers) -> dict | str:
         """
         Perform a DELETE request.
 
         Returns:
             dict | str: Parsed Response as JSON object or Response body as string.
         """
-        return self.__request("DELETE", path, params, headers)
+        return self.__request("DELETE", path, headers)
 
     def put(
         self, path: str, params: dict = {}, headers: dict = __shared_headers
@@ -111,6 +111,7 @@ class Networking:
         splitted_url = urlsplit(base_url)
         return f"{splitted_url.scheme}://{splitted_url.netloc}"
 
+    @backoff.on_exception(backoff.expo, NErrors.NetworingError, max_tries=3)
     def __request(
         self,
         method: str,
@@ -140,10 +141,15 @@ class Networking:
             response = request(
                 method=method,
                 url=self.base_url + path,
-                data=json.dumps(params),
+                data=json.dumps(params) if params != {} else None,
                 headers=headers,
                 verify=self.verify_ssl,
+                timeout=10,
             )
+        except ConnectionError:
+            raise NErrors.NetworingError(method, self.base_url + path)
+        except Timeout:
+            raise NErrors.NetworingError(method, self.base_url + path)
         except Exception as e:
             raise NErrors.UnexpectedNetworingError(method, self.base_url + path, e)
 

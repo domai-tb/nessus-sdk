@@ -16,6 +16,13 @@ class ValidationError(NessusError):
         super().__init__(f"Cannot validate {validation_on} as {validate_as}!")
 
 
+class NetworingError(NessusError):
+    def __init__(self, method: str, uri: str):
+        super().__init__(
+            f"Could not connect to performing a network request: {method} {uri}"
+        )
+
+
 class UnexpectedNetworingError(NessusError):
     def __init__(self, method: str, uri: str, exception: Exception):
         super().__init__(

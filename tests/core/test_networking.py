@@ -15,7 +15,7 @@ def test_validation_pos():
 
 def test_request_neg():
     net = Networking("https://127.0.0.1:8834/#")
-    with should_raise(NErrors.UnexpectedNetworingError):
+    with should_raise(NErrors.NetworingError):
         net.get("/")
 
 
@@ -27,25 +27,25 @@ def test_request_pos():
 
 def test_get_neg():
     net = Networking("https://127.0.0.1:8834/#")
-    with should_raise(NErrors.UnexpectedNetworingError):
+    with should_raise(NErrors.NetworingError):
         net.get("/")
 
 
 def test_post_neg():
     net = Networking("https://127.0.0.1:8834/#")
-    with should_raise(NErrors.UnexpectedNetworingError):
+    with should_raise(NErrors.NetworingError):
         net.post("/", params={})
 
 
 def test_put_neg():
     net = Networking("https://127.0.0.1:8834/#")
-    with should_raise(NErrors.UnexpectedNetworingError):
+    with should_raise(NErrors.NetworingError):
         net.put("/", params={})
 
 
 def test_delete_neg():
     net = Networking("https://127.0.0.1:8834/#")
-    with should_raise(NErrors.UnexpectedNetworingError):
+    with should_raise(NErrors.NetworingError):
         net.delete("/")
 
 
