@@ -1,3 +1,5 @@
+from core import Networking
+
 from .agent_groups import AgentGroupsAPI
 from .file import FileAPI
 from .folders import FoldersAPI
@@ -24,15 +26,10 @@ class NessusAPI:
 
     def __init__(
         self,
-        username: str = "",
-        password: str = "",
-        server_url: str = "https://127.0.0.1:8834",
-        verify_ssl: bool = False,
-    ):
-        self.username = username
-        self.password = password
-        self.server_url = server_url
-        self.verify_ssl = verify_ssl
+        server_url: str | None = None,
+    ) -> None:
+        if server_url is not None:
+            Networking().base_url = server_url
 
     @property
     def agent_groups(self):

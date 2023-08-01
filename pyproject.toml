@@ -54,7 +54,7 @@ keywords = ["nessus", "tenable", "pentest", "vulnerability scan", "scanner"]
 #
 # This field corresponds to the "Description" metadata field:
 # https://packaging.python.org/specifications/core-metadata/#description-optional
-readme = "README"
+readme = {file = "README", content-type = 'text/markdown'}
 
 # Specify which Python versions you support. In contrast to the
 # 'Programming Language' classifiers above, 'pip install' will check this
@@ -194,3 +194,7 @@ testpaths = ["tests"]
 # https://pip.pypa.io/en/stable/reference/pip/#pep-517-and-518-support
 requires = ["setuptools>=61.0"]
 build-backend = "setuptools.build_meta"
+
+# Commandline scripts that will be installed with the package.
+# [project.scripts]
+# my-script = "nessus.module:function"

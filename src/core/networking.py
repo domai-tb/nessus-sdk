@@ -17,13 +17,34 @@ class Networking:
         "Accept": "application/json",
     }
 
-    def __init__(self, base_url: str, verify_ssl: bool = False) -> None:
-        self.base_url = self.__parse_base_url(base_url)
+    __shared_base_url: str = ""
+
+    def __init__(self, base_url: str | None = None, verify_ssl: bool = False) -> None:
         self.verify_ssl = verify_ssl
+
+        if base_url is not None:
+            Networking.__shared_base_url = self.__parse_base_url(base_url)
 
         # Disable SSL Warning
         if not verify_ssl:
             urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
+
+    @property
+    def base_url(self) -> str:
+        """
+        Get Server URL.
+
+        Returns:
+            str: The Base URL all Networking object use.
+        """
+        return Networking.__shared_base_url
+
+    @base_url.setter
+    def base_url(self, base_url: str) -> None:
+        """
+        Set Server URL.
+        """
+        Networking.__shared_base_url = self.__parse_base_url(base_url)
 
     @property
     def headers(self) -> dict:
