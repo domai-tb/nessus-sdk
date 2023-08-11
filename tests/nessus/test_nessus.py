@@ -1,6 +1,6 @@
 from nessus import Nessus
 
-PASSWORD = "PASSWORD"
+PASSWORD = "nUEGy9$!5e@J5we#Eh5!4fMw$7syfoYQk6aYZCg!WiZHG4r3zJmLp2#XJzDk"
 
 
 def test_authenticate():

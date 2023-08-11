@@ -18,6 +18,7 @@ class Nessus:
 
     def authenticate(
         self,
+        bypass_api_limitations: bool = True,
         user_pass: tuple[str, str] | None = None,
         api_keys: tuple[str, str] | None = None,
     ) -> bool:
@@ -30,18 +31,36 @@ class Nessus:
 
         Returns:
             bool: True on success. False otherwise.
-        """    
+        """
         try:
             if user_pass is not None:
                 token = self.api.session.create(user_pass[0], user_pass[1])["token"]
                 self.api.session.headers.update({"X-Cookie": f"token={token}"})
+                keys = self.api.session.keys()
+                access_key, secret_key = keys["accessKey"], keys["secretKey"]
+                self.api.session.headers.update(
+                    {"X-ApiKeys": f"accessKey={access_key}; secretKey={secret_key}"}
+                )
             elif api_keys is not None:
                 self.api.session.headers.update(
                     {"X-ApiKeys": f"accessKey={api_keys[0]}; secretKey={api_keys[1]}"}
                 )
             else:
                 raise NErrors.AuthenticationError
-        except NErrors.AuthenticationError as e:
+        except:
             return False
-        # TODO: Test credential against server
+
+        if bypass_api_limitations:
+            try:
+                magic_api_key = self.api.get_magic_api_token()
+                self.api.session.headers.update({"X-Api-Token": magic_api_key})
+            except:
+                pass
+
+        # check authentication
+        try:
+            self.api.session.get()
+        except:
+            return False
+
         return True

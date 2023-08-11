@@ -25,7 +25,7 @@ class SessionAPI(Networking):
         """
         try:
             return dict(
-                self.post(
+                self.POST(
                     "/session", params={"username": username, "password": password}
                 )
             )
@@ -43,7 +43,7 @@ class SessionAPI(Networking):
             NErrors.UnexpectedError: Indicate that an error occured in the destroy process.
         """
         try:
-            self.delete("/session")
+            self.DELETE("/session")
             del self.headers
         except NErrors.StatusCodeError as e:
             if e.status_code == 401:
@@ -66,7 +66,7 @@ class SessionAPI(Networking):
         Returns:
             dict: Returns the user session data.
         """
-        return dict(self.put("/session", params={"name": name, "email": email}))
+        return dict(self.PUT("/session", params={"name": name, "email": email}))
 
     def get(self) -> dict:
         """
@@ -87,7 +87,7 @@ class SessionAPI(Networking):
                         "groups": []
                     }
         """
-        return dict(self.get("/session"))
+        return dict(self.GET("/session"))
 
     def password(self, password: str, current_password: str) -> None:
         """
@@ -97,7 +97,7 @@ class SessionAPI(Networking):
             password (str): New password for the user.
             current_password (str): Current password for the user.
         """
-        self.put(
+        self.PUT(
             "/session/chpasswd",
             params={"password": password, "current_password": current_password},
         )
@@ -114,4 +114,4 @@ class SessionAPI(Networking):
                         "secretKey": {string}
                     }
         """
-        return dict(self.put("/session/keys"))
+        return dict(self.PUT("/session/keys"))

@@ -1,4 +1,6 @@
-from core import Networking
+from re import findall
+
+from core import NErrors, Networking
 
 from .agent_groups import AgentGroupsAPI
 from .file import FileAPI
@@ -110,3 +112,29 @@ class NessusAPI:
     def users(self):
         """Nessus Users API Endpoint"""
         return UsersAPI()
+
+    def get_magic_api_token(self) -> str:
+        """
+        Read API-Token from JavaScript file named "nessus6.js".
+        The API-Key is needed to bypass Nessus Essential or Professional limitation.
+
+        Raises:
+            NErrors.MagicAPIKeyNotFound: Indicates that API limitation cannot bypassed.
+
+        Returns:
+            str: The API Token to use all API features of Nessus.
+        """
+        try:
+            response = str(Networking().GET("/nessus6.js"))
+        except:
+            response = ""
+
+        apiKey = findall(
+            r"[a-f0-9]{8}-?[a-f0-9]{4}-?4[a-f0-9]{3}-?[89ab][a-f0-9]{3}-?[a-f0-9]{12}",
+            response,
+        )[0]
+
+        if apiKey is None:
+            raise NErrors.MagicAPIKeyNotFound()
+
+        return apiKey

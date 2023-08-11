@@ -19,7 +19,7 @@ class ScansAPI(Networking):
             dict: Returns the 64-character single-use attachment token.
         """
         return dict(
-            self.post(
+            self.POST(
                 f"/scans/{scan_id}/attachments/{attachment_id}/prepare",
                 params={} if history_id is None else {"history_id": history_id},
             )
@@ -65,7 +65,7 @@ class ScansAPI(Networking):
                     }
         """
         return dict(
-            self.put(
+            self.PUT(
                 f"/scans/{scan_id}",
                 params={
                     "uuid": {template_uuid},
@@ -124,7 +124,7 @@ class ScansAPI(Networking):
                 }
         """
         return dict(
-            self.post(
+            self.POST(
                 f"/scans/{scan_id}/copy",
                 params={"folder_id": {folder_id}, "name": {name}},
             )
@@ -171,7 +171,7 @@ class ScansAPI(Networking):
                     }
         """
         return dict(
-            self.post(
+            self.POST(
                 "/scans",
                 params={
                     "uuid": {template_uuid},
@@ -203,7 +203,7 @@ class ScansAPI(Networking):
         Args:
             scan_id (int): The id of the scan to delete.
         """
-        self.delete(f"/scans/{scan_id}")
+        self.DELETE(f"/scans/{scan_id}")
 
     def delete_bulk(self, ids: list[int]) -> dict:
         """
@@ -219,7 +219,7 @@ class ScansAPI(Networking):
                         "deleted": []
                     }
         """
-        return dict(self.delete("/scans", params={"ids": ids}))
+        return dict(self.DELETE("/scans", params={"ids": ids}))
 
     def delete_history(self, scan_id: int, history_id: int) -> None:
         """
@@ -229,7 +229,7 @@ class ScansAPI(Networking):
             scan_id (int): The id of the scan.
             history_id (int): The id of the results to delete.
         """
-        self.delete(f"/scans/{scan_id}/history/{history_id}")
+        self.DELETE(f"/scans/{scan_id}/history/{history_id}")
 
     def details(self, scan_id: int, history_id: int = None, limit: int = None) -> dict:
         """
@@ -244,7 +244,7 @@ class ScansAPI(Networking):
             dict: _description_
         """
         return dict(
-            self.get(f"/scans/{scan_id}"),
+            self.GET(f"/scans/{scan_id}"),
             params={"history_id": history_id, "limit": limit},
         )
 
@@ -453,7 +453,7 @@ class ScansAPI(Networking):
                     }
         """
         return dict(
-            self.get(
+            self.GET(
                 f"/scans/{scan_id}/export/formats", params={"schedule_id": schedule_id}
             )
         )
@@ -469,7 +469,7 @@ class ScansAPI(Networking):
         Returns:
             str: Returns the content of the file as an attachment.
         """
-        return str(self.get(f"/scans/{scan_id}/export/{file_id}/download"))
+        return str(self.GET(f"/scans/{scan_id}/export/{file_id}/download"))
 
     def export_request(self):
         raise NotImplementedError()
@@ -491,7 +491,7 @@ class ScansAPI(Networking):
                         "status": {string}
                     }
         """
-        return dict(self.get(f"/scans/{scan_id}/export/{file_id}/status"))
+        return dict(self.GET(f"/scans/{scan_id}/export/{file_id}/status"))
 
     def host_details(self, scan_id: int, host_id: int, history_id: int = None) -> dict:
         """
@@ -523,7 +523,7 @@ class ScansAPI(Networking):
                     }
         """
         return dict(
-            self.get(
+            self.GET(
                 f"/scans/{scan_id}/hosts/{host_id}", params={"history_id": history_id}
             )
         )
@@ -543,7 +543,7 @@ class ScansAPI(Networking):
             dict: Returns the scan object.
         """
         return dict(
-            self.post(
+            self.POST(
                 "/scans/import",
                 params={
                     "file": scan_file,
@@ -561,7 +561,7 @@ class ScansAPI(Networking):
         Args:
             scan_id (int): The id of the scan to kill.
         """
-        self.post(f"/scans/{scan_id}/kill")
+        self.POST(f"/scans/{scan_id}/kill")
 
     def launch(self, scan_id: int, alt_targets: list[str] = None) -> dict:
         """
@@ -581,7 +581,7 @@ class ScansAPI(Networking):
                     }
         """
         return dict(
-            self.post(f"/scans/{scan_id}/launch", params={"alt_targets": alt_targets})
+            self.POST(f"/scans/{scan_id}/launch", params={"alt_targets": alt_targets})
         )
 
     def list_scans(
@@ -604,7 +604,7 @@ class ScansAPI(Networking):
                     }
         """
         return dict(
-            self.get(
+            self.GET(
                 "/scans",
                 params={
                     "folder_id": folder_id,
@@ -620,7 +620,7 @@ class ScansAPI(Networking):
         Args:
             scan_id (int): The id of the scan to pause.
         """
-        self.post(f"/scans/{scan_id}/pause")
+        self.POST(f"/scans/{scan_id}/pause")
 
     def plugin_output(
         self, scan_id: int, host_id: int, plugin_id: int, history_id: int = None
@@ -668,7 +668,7 @@ class ScansAPI(Networking):
                     }
         """
         return dict(
-            self.get(
+            self.GET(
                 f"/scans/{scan_id}/hosts/{host_id}/plugins/{plugin_id}",
                 params={"history_id": history_id},
             )
@@ -682,7 +682,7 @@ class ScansAPI(Networking):
             scan_id (int): The id of the scan to change.
             read (bool): If true, the scan has been read.
         """
-        self.put(f"/scans/{scan_id}/status", params={"read": read})
+        self.PUT(f"/scans/{scan_id}/status", params={"read": read})
 
     def resume(self, scan_id: int) -> None:
         """
@@ -691,7 +691,7 @@ class ScansAPI(Networking):
         Args:
             scan_id (int): The id of the scan to resume.
         """
-        self.post(f"/scans/{scan_id}/resume")
+        self.POST(f"/scans/{scan_id}/resume")
 
     def schedule(self, scan_id: int, enabled: bool) -> dict:
         """
@@ -712,7 +712,7 @@ class ScansAPI(Networking):
                         "timezone": {string}
                     }
         """
-        return dict(self.put(f"/scans/{scan_id}/schedule", params={"enabled": enabled}))
+        return dict(self.PUT(f"/scans/{scan_id}/schedule", params={"enabled": enabled}))
 
     def stop(self, scan_id: int) -> None:
         """
@@ -721,7 +721,7 @@ class ScansAPI(Networking):
         Args:
             scan_id (int): The id of the scan to stop.
         """
-        self.post(f"/scans/{scan_id}/stop")
+        self.POST(f"/scans/{scan_id}/stop")
 
     def timezones(self) -> dict:
         """
@@ -736,4 +736,4 @@ class ScansAPI(Networking):
                         ]
                     }
         """
-        return dict(self.get("/scans/timezones"))
+        return dict(self.GET("/scans/timezones"))

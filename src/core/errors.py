@@ -32,10 +32,10 @@ class UnexpectedNetworingError(NessusError):
 
 class StatusCodeError(NessusError):
     def __init__(self, method: str, uri: str, response: Response):
-        self.status_code = response.status_code
         self.response_text = response.text
         super().__init__(
-            f"Network request returned {self.status_code}:" f"\t{method} {uri}"
+            f"Network request returned {response.status_code}\n"
+            f"{method} {uri}: {response.text}"
         )
 
 
@@ -44,3 +44,8 @@ class AuthenticationError(NessusError):
         super().__init__(
             f"Could not authenticate against the given server with given credentials.\n{msg}"
         )
+
+
+class MagicAPIKeyNotFound(NessusError):
+    def __init__(self) -> None:
+        super().__init__("The Magic Nessus API key could not extracted... :(")

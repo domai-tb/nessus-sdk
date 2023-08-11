@@ -16,43 +16,47 @@ def test_validation_pos():
 def test_request_neg():
     net = Networking("https://127.0.0.1:8834/#")
     with should_raise(NErrors.NetworingError):
-        net.get("/")
+        net.GET("/")
 
 
 def test_request_pos():
     net = Networking("https://10.0.3.6:8834/")
-    rep = net.get("/server/status")
+    rep = net.GET("/server/status")
     assert type(rep) is dict and rep["status"] == "ready"
 
 
 def test_get_neg():
     net = Networking("https://127.0.0.1:8834/#")
     with should_raise(NErrors.NetworingError):
-        net.get("/")
+        net.GET("/")
 
 
 def test_post_neg():
     net = Networking("https://127.0.0.1:8834/#")
     with should_raise(NErrors.NetworingError):
-        net.post("/", params={})
+        net.POST("/", params={})
 
 
 def test_put_neg():
     net = Networking("https://127.0.0.1:8834/#")
     with should_raise(NErrors.NetworingError):
-        net.put("/", params={})
+        net.PUT("/", params={})
 
 
 def test_delete_neg():
     net = Networking("https://127.0.0.1:8834/#")
     with should_raise(NErrors.NetworingError):
-        net.delete("/")
+        net.DELETE("/")
 
 
 def test_header_pos():
     net = Networking("https://127.0.0.1:8834/#")
     net.headers = {"test": "test"}
     assert Networking("http://example.com").headers == {"test": "test"}
+
+    net.headers = {}
+    net.headers.update({"test2": "test2"})
+    assert Networking("http://example123.com").headers == {"test2": "test2"}
 
 
 def test_header_neg():

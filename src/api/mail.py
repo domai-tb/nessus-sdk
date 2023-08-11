@@ -26,7 +26,7 @@ class MailAPI(Networking):
             smtp_pass (str): The sender's password.
             smtp_enc (str): The encryption protocol to use.
         """
-        self.put(
+        self.PUT(
             "/settings/network/mail",
             params={
                 "smtp_host": smtp_host,
@@ -60,4 +60,4 @@ class MailAPI(Networking):
                     "smtp_enc": {string}
                 }
         """
-        return dict(self.get("/settings/network/mail"))
+        return dict(self.GET("/settings/network/mail"))

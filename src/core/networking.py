@@ -73,7 +73,7 @@ class Networking:
             "Accept": "application/json",
         }
 
-    def get(
+    def GET(
         self, path: str, params: dict = {}, headers: dict = __shared_headers
     ) -> dict | str:
         """
@@ -84,7 +84,7 @@ class Networking:
         """
         return self.__request("GET", path, params, headers)
 
-    def post(
+    def POST(
         self, path: str, params: dict = {}, headers: dict = __shared_headers
     ) -> dict | str:
         """
@@ -95,7 +95,7 @@ class Networking:
         """
         return self.__request("POST", path, params, headers)
 
-    def delete(self, path: str, headers: dict = __shared_headers) -> dict | str:
+    def DELETE(self, path: str, headers: dict = __shared_headers) -> dict | str:
         """
         Perform a DELETE request.
 
@@ -104,7 +104,7 @@ class Networking:
         """
         return self.__request("DELETE", path, headers)
 
-    def put(
+    def PUT(
         self, path: str, params: dict = {}, headers: dict = __shared_headers
     ) -> dict | str:
         """

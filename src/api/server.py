@@ -52,7 +52,7 @@ class ServerAPI(Networking):
                         ]
                     }
         """
-        return self.get("/server/properties")
+        return self.GET("/server/properties")
 
     def status(self) -> dict:
         """
@@ -61,7 +61,7 @@ class ServerAPI(Networking):
         Returns:
             dict: Returns the server status (loading, ready, corrupt-db, feed-expired, eval-expired, locked, register, register-locked, download-failed, feed-error).
         """
-        return self.get("/server/status")
+        return self.GET("/server/status")
 
     def restart(
         self,
@@ -79,7 +79,7 @@ class ServerAPI(Networking):
             unlink (bool, optional): Indicates whether the scanner should be unlinked from Tenable.io or Nessus Manager before restarting. Defaults to False.
             when_idle (bool, optional): Indicates that the scanner should be restarted when there are no scans currently running. Defaults to False.
         """
-        self.post(
+        self.POST(
             "/server/restart",
             params={
                 "reason": reason,
