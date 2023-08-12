@@ -3,7 +3,7 @@ from core import Networking
 
 class ProxyAPI(Networking):
     def change(self):
-        pass
+        raise NotImplementedError()
 
     def view(self):
-        pass
+        raise NotImplementedError()

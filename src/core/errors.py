@@ -33,6 +33,7 @@ class UnexpectedNetworingError(NessusError):
 class StatusCodeError(NessusError):
     def __init__(self, method: str, uri: str, response: Response):
         self.response_text = response.text
+        self.status_code = response.status_code
         super().__init__(
             f"Network request returned {response.status_code}\n"
             f"{method} {uri}: {response.text}"
@@ -49,3 +50,18 @@ class AuthenticationError(NessusError):
 class MagicAPIKeyNotFound(NessusError):
     def __init__(self) -> None:
         super().__init__("The Magic Nessus API key could not extracted... :(")
+
+
+class NotFoundError(NessusError):
+    def __init__(self, object: str) -> None:
+        super().__init__(f"'{object}' could not be found / {object} invalid")
+
+
+class InsufficientPermissionsError(NessusError):
+    def __init__(self) -> None:
+        super().__init__("Insufficient Permissions.")
+
+
+class InternalServerError(NessusError):
+    def __init__(self) -> None:
+        super().__init__("Internal Nessus Server Error.")

@@ -3,31 +3,31 @@ from core import Networking
 
 class ScannersAPI(Networking):
     def control_scans(self):
-        pass
+        raise NotImplementedError()
 
     def delete(self):
-        pass
+        raise NotImplementedError()
 
     def delete_bulk(self):
-        pass
+        raise NotImplementedError()
 
     def details(self):
-        pass
+        raise NotImplementedError()
 
     def edit(self):
-        pass
+        raise NotImplementedError()
 
     def get_aws_targets(self):
-        pass
+        raise NotImplementedError()
 
-    def get_Scanner_key(self):
-        pass
+    def get_scanner_key(self):
+        raise NotImplementedError()
 
     def get_scans(self):
-        pass
+        raise NotImplementedError()
 
     def list_scanners(self):
-        pass
+        raise NotImplementedError()
 
     def toggle_link_state(self):
-        pass
+        raise NotImplementedError()

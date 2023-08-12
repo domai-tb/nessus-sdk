@@ -1,4 +1,4 @@
-from core import Networking
+from core import Networking, NErrors
 
 
 class AgentGroupsAPI(Networking):
@@ -9,7 +9,19 @@ class AgentGroupsAPI(Networking):
         Args:
             group_id (int): The id of the agent group.
             agent_id (int): The id of the agent to add.
-        """
+
+        Raises:
+            NErrors.NotFoundError: Raised if the object does not exist.
+            NErrors.InternalServerError: Raises if an error occurred while attempting to add the agent.
+        """        
+        try:
+            self.PUT(f'/permissions/{group_id}/agents/{agent_id}')
+        except NErrors.StatusCodeError as e:
+            match e.status_code:
+                case 404:
+                    raise NErrors.NotFoundError('Agent')
+                case 500:
+                    raise NErrors.InternalServerError()
 
     def add_gents(self, group_id: int, agent_ids: list[int]) -> None:
         """
@@ -18,7 +30,19 @@ class AgentGroupsAPI(Networking):
         Args:
             group_id (int): The id of the agent group.
             agent_ids (list[int]): Array of agent IDs to add.
-        """
+
+        Raises:
+            NErrors.NotFoundError: Raised if the object does not exist.
+            NErrors.InternalServerError: Raises if an error occurred while attempting to add the agent.
+        """        
+        try:
+            self.PUT(f'/permissions/{group_id}/agents', params={agent_ids})
+        except NErrors.StatusCodeError as e:
+            match e.status_code:
+                case 400:
+                    raise NErrors.NotFoundError('One of the Agents')
+                case 500:
+                    raise NErrors.InternalServerError()
 
     def configure(self, group_id: int, name: str) -> None:
         """
@@ -27,7 +51,19 @@ class AgentGroupsAPI(Networking):
         Args:
             group_id (int): The id of the agent group to change.
             name (str): The name for the agent group.
-        """
+
+        Raises:
+            NErrors.NotFoundError: Raised if the object does not exist.
+            NErrors.InternalServerError: Raises if an error occurred while attempting to add the agent.
+        """        
+        try:
+            self.PUT(f'/agent-groups/{group_id}', params={'name':name})
+        except NErrors.StatusCodeError as e:
+            match e.status_code:
+                case 404:
+                    raise NErrors.NotFoundError('Group')
+                case 500:
+                    raise NErrors.InternalServerError()
 
     def create(self, name: str) -> dict:
         """
@@ -35,6 +71,10 @@ class AgentGroupsAPI(Networking):
 
         Args:
             name (str): The name of the agent group.
+
+        Raises:
+            NErrors.NotFoundError: Raised if the object does not exist.
+            NErrors.InternalServerError: Raises if an error occurred while attempting to add the agent.
 
         Returns:
             dict: The details of an agent group:
@@ -50,7 +90,16 @@ class AgentGroupsAPI(Networking):
                         "last_modification_date": {integer}
                     }
         """
-        return {}
+        try:
+            return dict(self.POST(f'/agent-groups', params={'name':name}))
+        except NErrors.StatusCodeError as e:
+            match e.status_code:
+                case 400:
+                    raise NErrors.NotFoundError('Field')
+                case 403:
+                    raise NErrors.InsufficientPermissionsError()
+                case 500:
+                    raise NErrors.InternalServerError()
 
     def delete_group(self, group_id: int) -> None:
         """
@@ -59,6 +108,7 @@ class AgentGroupsAPI(Networking):
         Args:
             group_id (int): The id of the agent group to delete.
         """
+        raise NotImplementedError()
 
     def delete_groups(self, group_ids: list[int]) -> None:
         """
@@ -67,6 +117,7 @@ class AgentGroupsAPI(Networking):
         Args:
             group_ids (list[int]): Array of agent group IDs to delete.
         """
+        raise NotImplementedError()
 
     def delete_agent(self, group_id: int, agent_id: int) -> None:
         """
@@ -76,6 +127,7 @@ class AgentGroupsAPI(Networking):
             group_id (int): The id of the agent group.
             agent_id (int): The id of the agent to remove.
         """
+        raise NotImplementedError()
 
     def delete_sgents(self, group_id: int, agent_ids: list[int]) -> None:
         """
@@ -85,6 +137,7 @@ class AgentGroupsAPI(Networking):
             group_id (int): The id of the agent group.
             agent_ids (list[int]): Array of agent IDs to delete.
         """
+        raise NotImplementedError()
 
     def details(self, group_id: int) -> dict:
         """
@@ -107,7 +160,7 @@ class AgentGroupsAPI(Networking):
                         "last_modification_date": {integer}
                     }
         """
-        return {}
+        raise NotImplementedError()
 
     def list(self) -> dict:
         """
@@ -120,4 +173,4 @@ class AgentGroupsAPI(Networking):
                     "groups": [ {...}, {...}, {...}, ...]
                 }
         """
-        return {}
+        raise NotImplementedError()

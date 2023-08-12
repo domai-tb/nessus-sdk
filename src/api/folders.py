@@ -3,13 +3,13 @@ from core import Networking
 
 class FoldersAPI(Networking):
     def create(self):
-        pass
+        raise NotImplementedError()
 
     def delete(self):
-        pass
+        raise NotImplementedError()
 
     def edit(self):
-        pass
+        raise NotImplementedError()
 
     def list_folders(self):
-        pass
+        raise NotImplementedError()

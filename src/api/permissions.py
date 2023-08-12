@@ -20,9 +20,9 @@ class PermissionsAPI(Networking):
         except NErrors.StatusCodeError as e:
             match e.status_code:
                 case 403:
-                    raise NErrors.InsufficientPermissionsError
+                    raise NErrors.InsufficientPermissionsError()
                 case 404:
-                    raise NErrors.NotFoundError
+                    raise NErrors.NotFoundError(f'{object_type} (ID: {object_id})')
 
     def list_permissions(self, object_type: str, object_id: int) -> dict:
         """
@@ -52,6 +52,6 @@ class PermissionsAPI(Networking):
         except NErrors.StatusCodeError as e:
             match e.status_code:
                 case 403:
-                    raise NErrors.InsufficientPermissionsError
+                    raise NErrors.InsufficientPermissionsError()
                 case 404:
-                    raise NErrors.NotFoundError
+                    raise NErrors.NotFoundError(f'{object_type} (ID: {object_id})')

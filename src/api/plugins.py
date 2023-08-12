@@ -3,10 +3,10 @@ from core import Networking
 
 class PluginsAPI(Networking):
     def families(self):
-        pass
+        raise NotImplementedError()
 
     def family_details(self):
-        pass
+        raise NotImplementedError()
 
     def plugin_details(self):
-        pass
+        raise NotImplementedError()

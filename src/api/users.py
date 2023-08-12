@@ -5,7 +5,7 @@ class UsersAPI(Networking):
     def create(self):
         pass
 
-    def DELETE(self):
+    def delete(self):
         pass
 
     def selete_bulk(self):

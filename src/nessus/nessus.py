@@ -64,3 +64,11 @@ class Nessus:
             return False
 
         return True
+
+    def scan(self) -> bool:
+        # scan = self.api.scans.create()
+        # self.api.scans.launch(scan['id'])
+        # while self.api.scans.read_status(scan['id'], True) != ready
+        # Create Export
+        # Download Export
+        raise NotImplementedError()
